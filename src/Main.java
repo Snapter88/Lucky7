@@ -13,14 +13,16 @@ public class Main {
 		int playerMoney = 0;
 		
 		System.out.println("Tervetuloa Lucky7 kasinolle!");
-		System.out.println("Kone arpoo sinulle 3 numeroa välillä 1-10 ja 7 voittaa");
+		System.out.println("Kone arpoo sinulle 3 numeroa välillä 1-10 ja 7 voittaa.");
 		
+		System.out.println("Paljonko rahaa haluat laittaa?");
 		playerMoney = welcomeLoop();
 		System.out.println("Haluatko jatkaa peliin (k/e)? ");
-		continueGame = scanner.next();
+		continueGame = playerContinueLoop();
 			
 			while(playerMoney > 0 && continueGame.equals("k")) {
 				
+				// TODO voisiko loopin muuttaa metodiksi
 				// for loop joka arpoo numerot randomGenerator metodia käyttäen
 				for(int i = 0; i < 3; i++) {
 					randomNumber[i] = randomGenerator();
@@ -29,7 +31,7 @@ public class Main {
 
 				playerMoney--;
 
-				
+				// TODO harkitse metodin käyttöä
 				// if-else lause joka määrittää voittoehdot
 				if(randomNumber[0] == 7 && randomNumber[1] == 7 && randomNumber[2] == 7) {
 					System.out.println("Voitit 8€");
@@ -43,50 +45,75 @@ public class Main {
 				} else {
 					System.out.println("Ei voittoa");
 				}
-
-				// if lause joka kertoo mitä tehdään kun pelaajalta loppuvat rahat
-				if(playerMoney == 0) {
-					System.out.println("Rahat loppuivat. Haluatko lisätä rahaa (k/e)?");
-					continueGame = scanner.next();
-					if(continueGame.equals("k")) {
-						System.out.println("Paljonko lisätään?");
-						playerMoney = scanner.nextInt();						
-					} else {
-						System.out.println("Kiitos että pelasit Lucky7 kasinolla");
-						break;
-					}
-				} 
 				
 				System.out.println("Sinulla on jäljellä " + playerMoney + "€");
-				System.out.println("Haluatko pelata uudestaan (k/e)?");
-				continueGame = scanner.next();
+				// if lause joka kertoo mitä tehdään kun pelaajalta loppuvat rahat
 				
-				// if lause joka keskeyttää pelin jos pelaaja syöttää e
-				if(continueGame.equals("e")) {
-					System.out.println("Kiitos että pelasit Lucky7 kasinolla");
-					break;
+				
+				if(playerMoney == 0) {
+					System.out.println("Rahat loppuivat. Haluatko lisätä rahaa (k/e)?");
+					continueGame = playerContinueLoop();
+					if(continueGame.equals("k")) {
+						while(playerMoney == 0) {
+						System.out.println("Paljonko lisätään?");
+						playerMoney = welcomeLoop();
+						}	
+					} 
 				}
-			}
-	
+				
+
+				System.out.println("Haluatko pelata uudestaan (k/e)?");
+				continueGame = playerContinueLoop();
+				
+
+				
+			}			
 	} // End main
 		
 	public static int randomGenerator() {
+		// Metodi joka luo 
 		Random random = new Random();
 		int randomGenerate = random.nextInt(10) + 1;
 		return randomGenerate;
 	
 	}
+	// TODO nimeä metodi selkeämmin
 	public static int welcomeLoop() {
+		// Metodi jossa pelaajalta kysytään paljonko aloitus rahaa laitetaan.
+		// While loopissa jossa virheen korjaus
 		Scanner scanner = new Scanner(System.in);
 		int playerMoney = 0;
 		while(playerMoney == 0) {
-			System.out.println("Paljonko rahaa haluat laittaa? ");
+			try {
+			System.out.println("Syötä summa: ");
 			playerMoney = scanner.nextInt();
 			if(playerMoney == 0) {
 				System.out.println("Arvon pitää olla yli 0");
 				continue;
 			}
+			} catch(Exception e) {
+				System.out.println("Arvon pitää olla kokonaisluku");
+				scanner.next();
+			}
 		}
 		return playerMoney;
+	}
+	// TODO Nimeä metodi selkeämmin
+	public static String playerContinueLoop() {
+		// Metodi joka tarkistaa haluaako pelaaja jatkaa peliä
+		Scanner scanner = new Scanner(System.in);
+		String playerContinue = "";
+		while(!playerContinue.equals("k")) {
+			playerContinue = scanner.next();
+			if(playerContinue.equals("k")) {
+			} else if(playerContinue.equals("e")) {
+				System.out.println("Kiitos että pelasit Lucky7 kasinolla");
+				break;
+			} else {
+				System.out.println("Arvon pitää olla k/e");
+				continue;
+			}
+		}
+		return playerContinue;
 	}
 }
