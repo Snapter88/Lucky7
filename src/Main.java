@@ -7,7 +7,6 @@ public class Main {
 	public static void main(String[] args) {
 		// Lucky7 casino app
 		
-		Scanner scanner = new Scanner(System.in);
 		int randomNumber[] = new int[3];
 		String continueGame = "e".toLowerCase();
 		int playerMoney = 0;
@@ -18,7 +17,7 @@ public class Main {
 		System.out.println("Paljonko rahaa haluat laittaa?");
 		playerMoney = welcomeLoop();
 		System.out.println("Haluatko jatkaa peliin (k/e)? ");
-		continueGame = playerContinueLoop();
+		continueGame = continueGame();
 			
 			while(playerMoney > 0 && continueGame.equals("k")) {
 				
@@ -52,20 +51,20 @@ public class Main {
 				
 				if(playerMoney == 0) {
 					System.out.println("Rahat loppuivat. Haluatko lisätä rahaa (k/e)?");
-					continueGame = playerContinueLoop();
+					continueGame = continueGame();
 					if(continueGame.equals("k")) {
 						while(playerMoney == 0) {
 						System.out.println("Paljonko lisätään?");
 						playerMoney = welcomeLoop();
 						}	
-					} 
+					} else {
+						break;
+					}
 				}
 				
 
 				System.out.println("Haluatko pelata uudestaan (k/e)?");
-				continueGame = playerContinueLoop();
-				
-
+				continueGame = continueGame();
 				
 			}			
 	} // End main
@@ -78,9 +77,10 @@ public class Main {
 	
 	}
 	// TODO nimeä metodi selkeämmin
+	// Metodi jossa pelaajalta kysytään paljonko aloitus rahaa laitetaan.
+	// While loopissa jossa virheen korjaus
 	public static int welcomeLoop() {
-		// Metodi jossa pelaajalta kysytään paljonko aloitus rahaa laitetaan.
-		// While loopissa jossa virheen korjaus
+
 		Scanner scanner = new Scanner(System.in);
 		int playerMoney = 0;
 		while(playerMoney == 0) {
@@ -97,10 +97,11 @@ public class Main {
 			}
 		}
 		return playerMoney;
-	}
-	// TODO Nimeä metodi selkeämmin
-	public static String playerContinueLoop() {
-		// Metodi joka tarkistaa haluaako pelaaja jatkaa peliä
+	} // End welcomeLoop()
+
+	// Metodi joka tarkistaa haluaako pelaaja jatkaa peliä
+	public static String continueGame() {
+		
 		Scanner scanner = new Scanner(System.in);
 		String playerContinue = "";
 		while(!playerContinue.equals("k")) {
@@ -115,5 +116,5 @@ public class Main {
 			}
 		}
 		return playerContinue;
-	}
+	} // End continueGame()
 }
